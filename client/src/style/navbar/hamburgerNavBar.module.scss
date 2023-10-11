@@ -1,0 +1,109 @@
+@use '../imports.module.scss' as *;
+
+.hamburgerNavBar {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.3em;
+}
+
+.burger__menu {
+  height: 100%;
+  width: 4em;
+  width: calc(4em - 7%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.burger__bar {
+  width: 100%;
+  height: 0.5em;
+  background-color: lighten($color: firebrick, $amount: 20);
+  border-radius: 0.5em;
+}
+.menu {
+  // layout
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 2em;
+  width: 70dvw;
+  height: 100dvh;
+  position: absolute;
+  left: -520px;
+  top: 60px;
+  // style
+  background-color: lighten($color: firebrick, $amount: 20);
+  transition: translate 400ms ease-in-out;
+  z-index: 1;
+  background-image: url(../../assets/working.jpg);
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+  filter: grayscale(0.6);
+}
+
+.menu__hidden {
+  translate: 0px;
+}
+.menu__visible {
+  translate: 350px;
+}
+
+.burger__bar.clicked:nth-child(1) {
+  transform: rotate(40deg) translate(0.35em, 0.7em);
+  transition: ease-in-out 0.5s;
+}
+.burger__bar.clicked:nth-child(2) {
+  transform: scale(0.1);
+  transition: ease-in-out 0.5s;
+}
+
+.burger__bar.clicked:nth-child(3) {
+  transform: rotate(140deg) translate(-0.4em, 0.7em);
+  transition: ease-in-out 0.5s;
+}
+.burger__bar.unclicked {
+  transform: rotate(0) translate(0);
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}
+
+.menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0rem 0.3rem;
+  font-family: map-get($fonts-families, font-catamaran);
+  font-size: clamp(1.4rem, 4vw + 10px, 1rem);
+  background: black;
+  letter-spacing: 0.1rem;
+  transition: all 300ms ease-in-out;
+  &:hover {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: lighten($color: #000000, $amount: 20);
+  }
+  &.active {
+    color: lighten($color: firebrick, $amount: 20);
+  }
+}
+
+@include md {
+  .menu {
+    width: 400px;
+    left: -400px;
+  }
+
+  .hamburgerNavBar {
+    display: block;
+  }
+}
+
+@include sm {
+  .menu {
+    left: -462px;
+  }
+}

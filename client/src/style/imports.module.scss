@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Catamaran:wght@600&family=Chilanka&family=Cinzel+Decorative:wght@700&family=Gilda+Display&family=Peralta&family=Racing+Sans+One&family=Righteous&display=swap');
+$size-m: 4px;
+$fonts-families: (
+  'font-bruno': 'Bruno',
+  'font-catamaran': 'Catamaran',
+  'font-chilanka': 'Chilanka',
+  'font-cinzel': 'Cinzel Decorative',
+  'font-peralta': 'Peralta',
+  'font-racing': 'Racing Sans One',
+  'font-righteous': 'Righteous',
+  'font-gilda': 'Gilda Display',
+);
+$font-sizes: (
+  'font-small': clamp(1.2rem, 2% + 1vw, 4rem),
+  'font-medium': clamp(1.4rem, 2% + 1.5vw, 5rem),
+  'font-big': clamp(2rem, 4% + 2vw, 5rem),
+);
+
+$breakpoints: (
+  'xs': 0,
+  'sm': 480px,
+  'md': 720px,
+  'lg': 960px,
+  'xl': 1200px,
+);
+
+@mixin img__style {
+  width: 200px;
+  height: 200px;
+  border-radius: 4px;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+@mixin xl {
+  @media (max-width: map-get($breakpoints,xl)) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (max-width: map-get($breakpoints,lg)) {
+    @content;
+  }
+}
+@mixin md {
+  @media (max-width: map-get($breakpoints,md)) {
+    @content;
+  }
+}
+@mixin sm {
+  @media (max-width: map-get($breakpoints,sm)) {
+    @content;
+  }
+}
+@mixin xs {
+  @media (max-width: map-get($breakpoints,xs)) {
+    @content;
+  }
+}

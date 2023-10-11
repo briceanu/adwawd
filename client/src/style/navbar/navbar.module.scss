@@ -1,0 +1,74 @@
+@use '../imports.module.scss' as *;
+
+.nav__bar {
+  //
+  // layout
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 8rem;
+  //
+  // style
+  height: 60px;
+  background-color: rgb(209, 188, 188);
+  background-color: black;
+  font-family: map-get($fonts-families, font-gilda);
+  font-size: map-get($font-sizes, font-small);
+  font-weight: 800;
+  color: white;
+
+  .links__container {
+    //
+    // layout
+    display: flex;
+    gap: 0.75rem;
+    //
+    // style
+    a {
+      text-decoration: none;
+      color: white;
+      padding: 0.75rem;
+      transition: border-radius 200ms ease-in-out,
+        background-color 200ms ease-in-out;
+    }
+  }
+}
+
+.links__container:has(a) :hover {
+  border-radius: 10px;
+  background-color: lighten($color: #000000, $amount: 20);
+}
+.links__container a.active {
+  color: lighten($color: firebrick, $amount: 20);
+  position: relative;
+}
+
+.links__container a.active::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  background-color: lighten($color: #000000, $amount: 40);
+  border-radius: 10px;
+}
+
+.nav__bar > img {
+  width: 100px;
+  height: 60px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+@include md {
+  nav > .links__container {
+    display: none !important;
+  }
+}
+@include sm {
+  .nav__bar {
+    padding-inline: 3rem;
+  }
+}
