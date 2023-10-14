@@ -79,6 +79,53 @@
     background-color: lighten($color: #000000, $amount: 20);
   }
 }
+
+.text__wrapper > div {
+  text-align: left;
+  align-self: flex-start;
+  margin-left: 3.5rem;
+}
+.text__wrapper > div .first__gear {
+  animation: rotate__left 2s infinite;
+  transform-origin: center;
+}
+.text__wrapper > div :nth-child(2) {
+  translate: -7px;
+  animation: rotate__right 2s infinite;
+  transform-origin: center;
+}
+
+.text__wrapper > div .react__icons__gear {
+  width: 40px;
+  height: 40px;
+}
+
+@keyframes rotate__left {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: -180deg;
+  }
+}
+@keyframes rotate__right {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 180deg;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .text__wrapper > div :nth-child(2) {
+    animation: rotate 3s linear;
+  }
+  .text__wrapper > div .first__gear {
+    animation: shake 3s linear;
+  }
+}
+
 @include xl {
   .home__wrapper {
     margin-block-start: 0.5rem;

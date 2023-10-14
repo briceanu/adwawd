@@ -1,0 +1,262 @@
+@use '../imports.module.scss' as *;
+
+@mixin text__wrapper__style($font_size) {
+  font-weight: 900;
+  font-size: $font_size;
+}
+
+.singup__page {
+  background-image: url(../../assets/code.jpg);
+  background-size: cover;
+  min-height: calc(100dvh - 60px);
+  display: grid;
+  place-items: center;
+  position: relative;
+
+  form {
+    padding: 4em 0;
+    width: 40%;
+    background-color: rgba(197, 196, 193, 0.822);
+    box-shadow: 0px 0px 10px 10px black;
+  }
+}
+
+form h2 {
+  letter-spacing: 0.2rem;
+  line-height: 2.5rem;
+  font-family: map-get($fonts-families, font-gilda);
+  @include text__wrapper__style(map-get($font-sizes, font-big));
+}
+aside > img {
+  display: flex;
+  object-fit: cover;
+  width: 100%;
+  min-height: calc(100dvh - 60px);
+}
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 3rem;
+  border-radius: 20px;
+  text-align: center;
+  & > p {
+    width: 70%;
+  }
+}
+form p {
+  letter-spacing: 0.1em;
+  font-family: map-get($fonts-families, font-catamaran);
+  font-size: map-get($font-sizes, font-small);
+}
+form > div > a {
+  letter-spacing: 0.1em;
+  font-family: map-get($fonts-families, font-peralta);
+  font-size: map-get($font-sizes, font-small);
+  color: black;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+form input {
+  padding: 0.57rem;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  color: #000000;
+  font-weight: 900;
+  letter-spacing: 0.1rem;
+  box-shadow: 0px 0px 10px black;
+  font-family: map-get($fonts-families, font-righteous);
+
+  &:focus {
+    border: 2px solid black;
+    outline: none;
+  }
+  &::placeholder {
+    font-family: map-get($fonts-families, font-chilanka);
+    color: #000000;
+    font-weight: 900;
+    letter-spacing: 0.1rem;
+    transition: all 300ms linear;
+  }
+}
+
+form input:focus::placeholder {
+  translate: 0px -8px;
+  scale: 0.9;
+  letter-spacing: 0.1rem;
+}
+
+button {
+  font-weight: 900;
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+  padding: 0.7rem 2rem;
+  font-family: map-get($fonts-families, font-chilanka);
+  letter-spacing: 0.2rem;
+  transition: background-color 200ms ease-in-out;
+  line-height: 1.2em;
+  border: none;
+  box-shadow: 0px 0px 10px black;
+  text-align: center;
+  &:hover {
+    background-color: lighten($color: #000000, $amount: 70);
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+    border: 2px solid black;
+  }
+}
+
+.input__wrapper {
+  position: relative;
+  width: 60%;
+}
+.input__wrapper.valid::after {
+  content: '';
+  background: url(../../assets/tick.svg);
+  background-size: cover;
+  position: absolute;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  top: 2px;
+  right: 20px;
+}
+
+.toast__message__success {
+  color: wheat !important;
+  font-weight: 900;
+  width: calc(20vw - 10px);
+  font-size: clamp(1.25rem, 1.5rem, 2vw);
+  padding: 30px 20px;
+  border: 2px solid green;
+  text-align: center;
+  text-shadow: 2px 2px 2px lighten($color: #29106867, $amount: 14) !important;
+  background: linear-gradient(
+    -36deg,
+    lighten($color: #4c9c1eea, $amount: 0),
+    lighten($color: #54ac0cea, $amount: 10),
+    lighten($color: #1c5e13ef, $amount: 12),
+    lighten($color: #42643ce3, $amount: 14),
+    lighten($color: #2c7210e0, $amount: 18),
+    lighten($color: #20681ee3, $amount: 18)
+  ) !important;
+  animation: rotate 400ms linear;
+}
+
+.toast__message__error {
+  position: absolute;
+  color: rgb(85, 36, 23) !important;
+  font-weight: 900;
+  width: calc(20vw - 10px);
+  font-size: clamp(1.25rem, 1.5rem, 2vw);
+  padding: 30px 20px;
+  border: 2px solid firebrick;
+  text-align: center;
+  text-shadow: 2px 2px 2px lighten($color: #29106867, $amount: 14) !important;
+  background: linear-gradient(
+    -36deg,
+    lighten($color: #852e7a, $amount: 0),
+    lighten($color: #ff7958, $amount: 10),
+    lighten($color: #e41a0c, $amount: 12),
+    lighten($color: #a70c0c, $amount: 14),
+    lighten($color: #ca2407, $amount: 18),
+    lighten($color: #b4270e, $amount: 18)
+  ) !important;
+  animation: shake 400ms linear;
+}
+
+.error {
+  color: firebrick;
+  font-family: map-get($fonts-families, font-catamaran);
+  font-size: map-get($font-sizes, font-small);
+}
+@media (prefers-reduced-motion) {
+  .toast__message__success {
+    animation: rotate 1s linear;
+  }
+  .toast__message__error {
+    animation: shake 1s linear;
+  }
+}
+
+form p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+//
+@keyframes shake {
+  0% {
+    translate: -5px 5px;
+  }
+  25% {
+    translate: -20px -20px;
+  }
+  50% {
+    translate: -5px 5px;
+  }
+  75% {
+    translate: 20px -20px;
+  }
+  100% {
+    translate: 5px -5px;
+  }
+}
+@include xl {
+  .singup__page form {
+    width: 50%;
+  }
+}
+@include lg {
+  .singup__page form {
+    width: 60%;
+  }
+  .toast__message__error,
+  .toast__message__success {
+    width: 400px;
+  }
+}
+@include md {
+  .singup__page form {
+    width: 70%;
+  }
+  button {
+    width: 50%;
+    padding: 0.7rem 1rem;
+  }
+  .toast__message__error,
+  .toast__message__success {
+    width: 200px;
+  }
+}
+@include sm {
+  .singup__page form {
+    width: 80%;
+  }
+  .input__wrapper.valid::after {
+    right: 5px;
+  }
+}
