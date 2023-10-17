@@ -1,10 +1,5 @@
 @use '../imports.module.scss' as *;
 
-@mixin text__wrapper__style($font_size) {
-  font-weight: 900;
-  padding: 1rem;
-  font-size: $font_size;
-}
 .home__container {
   display: flex;
   align-items: center;
@@ -90,7 +85,7 @@
   transform-origin: center;
 }
 .text__wrapper > div :nth-child(2) {
-  translate: -7px;
+  translate: -9px 9px;
   animation: rotate__right 2s infinite;
   transform-origin: center;
 }
@@ -98,6 +93,72 @@
 .text__wrapper > div .react__icons__gear {
   width: 40px;
   height: 40px;
+}
+
+.home__container picture div.card {
+  // layout
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.6em;
+  //
+
+  // style
+  height: 100px;
+  background-color: black;
+  color: white;
+  opacity: 0;
+  translate: 0px -150px;
+  padding: 2rem 0;
+  transition: all 200ms ease-in-out;
+  border-radius: 5px;
+}
+.home__container picture div.card > h2 {
+  letter-spacing: 0.1rem;
+  line-height: 2rem;
+  font-family: map-get($fonts-families, font-chilanka);
+  @include text__wrapper__style(map-get($font-sizes, font-big));
+  padding: 0rem;
+}
+.home__container picture div.card > div {
+  display: flex;
+  column-gap: 0.4rem;
+
+  & > .react_icons {
+    width: 30px;
+    height: 30px;
+    scale: 0;
+  }
+  & > .react_icons:hover {
+    cursor: pointer;
+  }
+}
+
+.home__container picture:hover {
+  img {
+    filter: blur(2px);
+  }
+  div.card {
+    translate: 0px -200px;
+    opacity: 1;
+  }
+}
+
+.home__container picture:hover {
+  cursor: pointer;
+  $icon-count: 4;
+  $delay: 400ms;
+
+  @for $i from 1 through $icon-count {
+    .react_icons:nth-child(#{$i}) {
+      $delay-per-icon: $delay * $i;
+      transition: all 200ms #{$delay-per-icon};
+      scale: 1;
+      translate: 0px 5px;
+    }
+  }
 }
 
 @keyframes rotate__left {

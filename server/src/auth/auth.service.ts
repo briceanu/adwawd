@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-// import { SignupCredentialDto } from './dto/signup-credentials.dto';
 import { UsersRepository } from './users.repository';
+import { SignupCredentialDto } from './dto/signup-credentials.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,9 @@ export class AuthService {
     return this.usersRepository.createUser(authCredentialsDto);
   }
 
-  // signIn(signupCredentialDto: SignupCredentialDto) {
-  //   return `This action returns all auth`;
-  // }
+  signIn(
+    signupCredentialDto: SignupCredentialDto,
+  ): Promise<{ accessToken: string }> {
+    return this.usersRepository.signIn(signupCredentialDto);
+  }
 }

@@ -6,12 +6,19 @@ import * as bcrypt from 'bcrypt';
 import {
   ConflictException,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { SignupCredentialDto } from './dto/signup-credentials.dto';
+import { ConfigService } from '@nestjs/config';
+import { Payload } from './jwt-payload.interface';
+import { JwtService } from '@nestjs/jwt';
 
 export class UsersRepository extends Repository<User> {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    private configService: ConfigService,
+    private jwtService: JwtService,
   ) {
     super(
       usersRepository.target,
@@ -38,6 +45,26 @@ export class UsersRepository extends Repository<User> {
       } else {
         throw new InternalServerErrorException();
       }
+    }
+  }
+
+  async signIn(
+    signupCredentialDto: SignupCredentialDto,
+  ): Promise<{ accessToken: string }> {
+    const { username, password } = signupCredentialDto;
+    const user = await this.usersRepository.findOne({ where: { username } });
+    const jwtOptions = {
+      secret: this.configService.get<string>('JWT_SECRET'),
+      expiresIn: '10m',
+    };
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const payload: Payload = { username };
+      const accessToken = this.jwtService.sign(payload, jwtOptions);
+
+      return { accessToken };
+    } else {
+      throw new UnauthorizedException('Please check your login credentials');
     }
   }
 }

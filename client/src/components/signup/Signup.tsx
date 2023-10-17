@@ -4,13 +4,15 @@ import style from '../../style/signup/signup.module.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
 import { FaKey } from 'react-icons/fa';
+import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 export interface User {
   username: string;
   password: string;
 }
+
 const showToastSuccessMessage = () => {
   toast("Your account has been created! You'll be redirect to signin page", {
     position: toast.POSITION.TOP_RIGHT,
@@ -18,24 +20,10 @@ const showToastSuccessMessage = () => {
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
-    draggable: true,
+    draggable: false,
     progress: undefined,
     theme: 'light',
     className: `${style.toast__message__success}`,
-  });
-};
-
-const showToastErrorMessage = (error: any) => {
-  toast.error(`Could not save! ${error}`, {
-    position: toast.POSITION.TOP_LEFT,
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: 'light',
-    className: `${style.toast__message__error}`,
   });
 };
 
@@ -43,6 +31,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [isUsernameEmpty, setIsUsernameEmpty] = useState(true);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   const {
     register,
     handleSubmit,
@@ -63,14 +52,18 @@ const Signup = () => {
       showToastSuccessMessage();
       setIsUsernameEmpty(true);
       setIsPasswordEmpty(true);
+      setErrorMessage('');
       setTimeout(() => {
         navigate('/signin');
       }, 5000);
     } catch (error) {
-      console.error('Error:', error);
-      showToastErrorMessage(error);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+        console.error('Error:', error.message);
+      }
     }
   };
+
   const handleUsernameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedValue = event.target.value.trim();
     // Remove whitespace characters
@@ -163,9 +156,10 @@ const Signup = () => {
             />
           </div>
           <p className={style.error}>{errors.password?.message}</p>
+          {errorMessage && <p className={style.error}>{errorMessage}</p>}
 
           <button disabled={isSubmitting} type='submit'>
-            Create Account
+            {isSubmitting ? ' ' : 'Create Account'}
           </button>
           <p>
             Already have an account? <br />
