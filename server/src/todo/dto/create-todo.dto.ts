@@ -11,5 +11,5 @@ export class CreateTodoDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  idEditing: boolean;
+  isEditing: boolean;
 }

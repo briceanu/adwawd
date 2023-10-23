@@ -5,6 +5,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import * as bcrypt from 'bcrypt';
 import {
   ConflictException,
+  ForbiddenException,
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -48,23 +49,46 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async signIn(
-    signupCredentialDto: SignupCredentialDto,
-  ): Promise<{ accessToken: string }> {
+  async signIn(signupCredentialDto: SignupCredentialDto): Promise<string> {
     const { username, password } = signupCredentialDto;
+    // const user = await this.usersRepository.findOneBy({ username: username });
     const user = await this.usersRepository.findOne({ where: { username } });
     const jwtOptions = {
       secret: this.configService.get<string>('JWT_SECRET'),
-      expiresIn: '10m',
+      expiresIn: '1h',
     };
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: Payload = { username };
       const accessToken = this.jwtService.sign(payload, jwtOptions);
 
-      return { accessToken };
+      return accessToken;
     } else {
       throw new UnauthorizedException('Please check your login credentials');
+    }
+  }
+
+  async validate(token: string): Promise<string | undefined> {
+    if (!token) {
+      throw new UnauthorizedException('');
+    }
+
+    const jwtOptions = {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    };
+    try {
+      const payload = await this.jwtService.verifyAsync(token, jwtOptions);
+      const { username } = payload;
+      const user: User = await this.usersRepository.findOne({
+        where: { username },
+      });
+      if (!user) {
+        throw new ForbiddenException('User not found');
+      }
+
+      return token;
+    } catch {
+      throw new ForbiddenException('Please check your credentials');
     }
   }
 }

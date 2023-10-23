@@ -1,11 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import style from '../../style/navbar/hamburgerNavBar.module.scss';
+import { useContext } from 'react';
+import { RemoveTokenContext } from '../../App';
+import { useAuth } from '../AuthContext';
 
 interface UpdataFunction {
   updateMenu: () => void;
   menu_class: string;
 }
+
 const SideMenu: React.FC<UpdataFunction> = ({ updateMenu, menu_class }) => {
+  const { isLoggedIn, logout } = useAuth();
+  const removeUser = useContext(RemoveTokenContext);
+
   return (
     <div className={`${menu_class} ${style.menu}`}>
       <NavLink
@@ -22,13 +29,31 @@ const SideMenu: React.FC<UpdataFunction> = ({ updateMenu, menu_class }) => {
       >
         Sign up
       </NavLink>
-      <NavLink
-        onClick={updateMenu}
-        to='/signin'
-        className={({ isActive }) => (isActive ? style.active : '')}
-      >
-        Sign In
-      </NavLink>
+
+      {isLoggedIn ? (
+        <NavLink
+          to='/'
+          onClick={() => {
+            logout();
+            updateMenu();
+            removeUser();
+          }}
+          className={({ isActive }) => (isActive ? style.active : '')}
+        >
+          Log Out
+        </NavLink>
+      ) : (
+        <NavLink
+          to='/signin'
+          onClick={() => {
+            updateMenu();
+          }}
+          className={({ isActive }) => (isActive ? style.active : '')}
+        >
+          Sign In
+        </NavLink>
+      )}
+
       <NavLink
         onClick={updateMenu}
         to='/todos'

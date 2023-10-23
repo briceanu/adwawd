@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { SignupCredentialDto } from './dto/signup-credentials.dto';
@@ -15,7 +15,17 @@ export class AuthController {
   @Post('/signin')
   validateUser(
     @Body() signupCredentialDto: SignupCredentialDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<string> {
     return this.authService.signIn(signupCredentialDto);
+  }
+
+  @Post('/validate')
+  async validate(
+    @Headers('authorization') authorization: string,
+  ): Promise<string | undefined> {
+    if (authorization && authorization.startsWith('Bearer ')) {
+      const token = authorization.substring(7); // Remove 'Bearer ' from the header
+      return this.authService.validateToken(token);
+    }
   }
 }

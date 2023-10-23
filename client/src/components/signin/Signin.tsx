@@ -9,24 +9,27 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-
-const showToastSuccessMessage = () => {
-  toast("Successfully logedin! You'll be redirect to todos page", {
-    position: toast.POSITION.TOP_RIGHT,
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-    progress: undefined,
-    theme: 'light',
-    className: `${style.toast__message__success}`,
-  });
-};
+import { useAuth } from '../AuthContext';
+const customId = 'custom-id-yes';
 
 const Signin = () => {
+  const showToastSuccessMessage = () => {
+    toast("Successfully logedin! You'll be redirected to todos page", {
+      toastId: customId,
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: 'light',
+      className: `${style.toast__message__success}`,
+    });
+  };
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const {
     register,
@@ -41,6 +44,7 @@ const Signin = () => {
     },
     {
       onSuccess: () => {
+        logout();
         setTimeout(() => {
           navigate('/todos');
         }, 5000);

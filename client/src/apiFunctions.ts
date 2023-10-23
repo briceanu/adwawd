@@ -59,3 +59,27 @@ export const login = async (userData: User): Promise<string> => {
     throw error;
   }
 };
+
+export const validateToken = async (): Promise<string | undefined> => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch(`${API}/validate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    const validatedToken = await response.text(); // Get the token as plain text
+    localStorage.setItem('token', validatedToken);
+    return validatedToken;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

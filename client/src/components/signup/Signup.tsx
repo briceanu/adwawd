@@ -15,6 +15,7 @@ export interface User {
 
 const showToastSuccessMessage = () => {
   toast("Your account has been created! You'll be redirect to signin page", {
+    toastId: 'a23df',
     position: toast.POSITION.TOP_RIGHT,
     autoClose: 5000,
     hideProgressBar: false,
@@ -23,7 +24,7 @@ const showToastSuccessMessage = () => {
     draggable: false,
     progress: undefined,
     theme: 'light',
-    className: `${style.toast__message__success}`,
+    // className: `${style.toast__message__success}`,
   });
 };
 

@@ -3,12 +3,15 @@ import { AuthModule } from './auth/auth.module';
 import { TodoModule } from './todo/todo.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TodoController } from './todo/todo.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: [`.env.stage.${process.env.STAGE}`],
     }),
+    TodoModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -19,15 +22,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         host: configService.get('DB_HOST'),
         port: configService.get('PORT'),
         username: configService.get('DB_USERNAME'),
-        // it also works withpassword: process.env.DB_PASSWORD,
+        // it also works with password: process.env.DB_PASSWORD,
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
       }),
     }),
     AuthModule,
-    TodoModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [TodoController],
+  providers: [JwtService],
 })
 export class AppModule {}

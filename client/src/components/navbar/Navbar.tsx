@@ -2,8 +2,14 @@ import { NavLink, Outlet } from 'react-router-dom';
 import woman_working2 from '../../assets/woman_working2.svg';
 import HamburgerNavBar from './HamburgerNavBar';
 import style from '../../style/navbar/navbar.module.scss';
+import { useAuth } from '../AuthContext';
+import { useContext } from 'react';
+import { RemoveTokenContext } from '../../App';
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useAuth();
+  const removeUser = useContext(RemoveTokenContext);
+
   return (
     <>
       <nav className={style.nav__bar}>
@@ -21,12 +27,24 @@ const Navbar = () => {
           >
             Sign Up
           </NavLink>
-          <NavLink
-            to='/signin'
-            className={({ isActive }) => (isActive ? style.active : '')}
-          >
-            Sign In
-          </NavLink>
+          {isLoggedIn ? (
+            <NavLink
+              to='/'
+              onClick={() => {
+                logout();
+                removeUser();
+              }}
+            >
+              Log Out
+            </NavLink>
+          ) : (
+            <NavLink
+              to='/signin'
+              className={({ isActive }) => (isActive ? style.active : '')}
+            >
+              Sign In
+            </NavLink>
+          )}
           <NavLink
             to='/todos'
             className={({ isActive }) => (isActive ? style.active : '')}
@@ -42,4 +60,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-//

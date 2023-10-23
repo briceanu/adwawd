@@ -1,0 +1,9 @@
+@use '../imports.module.scss' as *;
+
+.todoPage {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  min-height: calc(100dvh - 60px);
+  max-width: 100dvw;
+  background-color: #f1dd283d;
+}

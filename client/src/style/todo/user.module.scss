@@ -1,0 +1,20 @@
+@use '../imports.module.scss' as *;
+
+.user__component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  color: rgba(146, 83, 93, 0.918);
+  background-color: rgba(0, 255, 0, 0.295);
+  picture > img {
+    width: 100%;
+    transition: filter 200ms ease-in-out;
+    &:hover {
+      filter: blur(2px);
+      cursor: pointer;
+    }
+  }
+  @include text__wrapper__style(map-get($font-sizes, font-big));
+  font-family: map-get($fonts-families, font-gilda);
+}

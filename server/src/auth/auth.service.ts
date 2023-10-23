@@ -11,9 +11,11 @@ export class AuthService {
     return this.usersRepository.createUser(authCredentialsDto);
   }
 
-  signIn(
-    signupCredentialDto: SignupCredentialDto,
-  ): Promise<{ accessToken: string }> {
+  signIn(signupCredentialDto: SignupCredentialDto): Promise<string> {
     return this.usersRepository.signIn(signupCredentialDto);
+  }
+
+  validateToken(token: string): Promise<string | undefined> {
+    return this.usersRepository.validate(token);
   }
 }
